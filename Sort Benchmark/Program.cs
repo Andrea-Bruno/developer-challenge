@@ -103,7 +103,7 @@ namespace Sort_Benchmark
 			printResult(sortTuriddu, "Turiddu");
 			printResult(sortAsekir, "Asekir");
 			printResult(sortJacopo, "Jacopo");
-
+			printResult(sortAndreaManzini,"Andrea Manzini");		
 
 			//============================
 			//   Benchmark test
@@ -133,10 +133,11 @@ namespace Sort_Benchmark
 			Benchmark(sortKirill1, "Kirill1");
 			Benchmark(sortKirill2, "Kirill2");
 			Benchmark(sortMusabir, "Musabir");
-			Benchmark(AndreaBruno, "Andrea");
+			Benchmark(AndreaBruno, "Andrea Bruno");
 			Benchmark(sortTuriddu, "Turiddu");
 			Benchmark(sortAsekir, "Asekir");
 			Benchmark(sortJacopo, "Jacopo");
+			Benchmark(sortAndreaManzini,"Andrea Manzini");
 
 		}
 
@@ -419,16 +420,25 @@ namespace Sort_Benchmark
 
 
 		//=============================================================
-		//	 YourName
+		//	 Andrea Manzini
 		//=============================================================
-		static int[] sortYourName(int[] v, int rif)
+		static int[] sortAndreaManzini(int[] v, int rif)
 		{
-			//Write your algorithm here!!!
-			//Write your algorithm here!!!
-			//Write your algorithm here!!!
-			//Write your algorithm here!!!
-			//Write your algorithm here!!!
-			//Write your algorithm here!!!
+			// create an array for counting entries:
+			// double length to keep negatives as 0..max , positives as max..max*2
+			var d=new int[max*2];
+			foreach(int item in v) {
+				d[rif-item+max]++;
+			}
+ 			int j=0;
+			// in the center, delta=0 so i can copy the reference number
+			while(d[max]-- >0 ) { v[j++]=rif;}
+			// going from the center iterate both to left (1) and right (2)
+			for(int i=1;i<max;i++)
+			{
+				while (d[max-i]-- >0) { v[j++]=rif+i;} // (1)
+				while (d[max+i]-- >0) { v[j++]=rif-i;} // (2)
+			} 
 			return v;
 		}
 

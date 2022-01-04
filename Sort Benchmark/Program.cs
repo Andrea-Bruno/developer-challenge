@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-
+using static Sort_Benchmark.Algorithms;
 
 /*
 														-	CONTEST -
@@ -32,7 +32,7 @@ namespace Sort_Benchmark
     class Program
     {
 
-        static public int[] Ar
+        static int[] Ar
         {
             get
             {
@@ -46,18 +46,18 @@ namespace Sort_Benchmark
         }
 
         static int pointer = 0;
-        public static int[] randomBase;
-        public static Random r = new Random();
+        static int[] randomBase;
+        static Random r = new Random();
 
         const int ntest = 1000000;
         const int rif = 10;
         const int max = 20;
         const int len = 55;
 
-        public static double abComp = 0;
+        static double abComp = 0;
 
-        //public static readonly int[] Ar = { 7, 13, 2, 16, 20, 1, 0, 11, 1, 5, 13, 17, 6, 15, 20, 1, 1, 14, 13, 8, 6, 4, 10, 4, 4, 20, 10, 19, 6, 11, 8, 8, 12, 15, 6, 9, 15, 6, 11, 19, 18, 12, 14, 11, 17, 18, 9, 10, 10, 15, 12, 17, 0, 1, 11 };
-        //public static readonly int[] Ar = { 5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+        //static readonly int[] Ar = { 7, 13, 2, 16, 20, 1, 0, 11, 1, 5, 13, 17, 6, 15, 20, 1, 1, 14, 13, 8, 6, 4, 10, 4, 4, 20, 10, 19, 6, 11, 8, 8, 12, 15, 6, 9, 15, 6, 11, 19, 18, 12, 14, 11, 17, 18, 9, 10, 10, 15, 12, 17, 0, 1, 11 };
+        //static readonly int[] Ar = { 5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 
         static void Main(string[] args)
         {
@@ -90,6 +90,7 @@ namespace Sort_Benchmark
                 Console.WriteLine();
             }
 
+
             //============================
             //   Print sequence
             //============================
@@ -104,7 +105,7 @@ namespace Sort_Benchmark
                 printResult(sortJacopo, "Jacopo");
                 printResult(AndreaBruno, "Andrea Bruno");
                 printResult(AndreaBruno2, "Andrea Bruno 2");
-                printResult(AndreaManzini, "Andrea Manzini");
+                //printResult(AndreaManzini, "Andrea Manzini");
                 printResult(sortMuhammadZubair, "Muhammad");
                 printResult(sortTuriddu, "Turiddu");
                 printResult(sortAsekir, "Asekir");
@@ -143,7 +144,7 @@ namespace Sort_Benchmark
             Benchmark(sortJacopo, "Jacopo");
             Benchmark(AndreaBruno, "Andrea Bruno");
             Benchmark(AndreaBruno2, "Andrea Bruno 2");
-            Benchmark(AndreaManzini, "Andrea Manzini");
+            //Benchmark(AndreaManzini, "Andrea Manzini");
             Benchmark(sortMuhammadZubair, "Muhammad");
             Benchmark(sortTuriddu, "Turiddu");
             Benchmark(sortAsekir, "Asekir");
@@ -152,10 +153,15 @@ namespace Sort_Benchmark
         }
 
 
+
+    }
+    public static class Algorithms
+    {
+
         //=============================================================
         //https://www.facebook.com/mubashar.shahzad.23
         //=============================================================
-        static int[] sortMubasher(int[] v, int rif)
+        public static int[] sortMubasher(int[] v, int rif)
         {
             //write here the algoritm		
 
@@ -200,7 +206,7 @@ namespace Sort_Benchmark
         //=============================================================
         //		Sadiq Eyvazov sadiqeyvazov8@gmail.com
         //=============================================================
-        static int[] sortSadiq(int[] array, int rif)
+        public static int[] sortSadiq(int[] array, int rif)
         {
             Array.Sort(array, new CustomComparator(rif));
             return array;
@@ -224,7 +230,7 @@ namespace Sort_Benchmark
         //=============================================================
         //		Faig Jafarguliyev
         //=============================================================
-        static int[] sortFaig(int[] v, int rif)
+        public static int[] sortFaig(int[] v, int rif)
         {
             int[] k = v.OrderBy(x => Math.Abs((long)x - rif)).ToArray();
             return k;
@@ -234,7 +240,7 @@ namespace Sort_Benchmark
         //=============================================================
         //		Kirill Sergeyevich Rodionov
         //=============================================================
-        static int[] sortKirill1(int[] v, int rif)
+        public static int[] sortKirill1(int[] v, int rif)
         {
             int lng = v.Length;
             int[] sibling = new int[lng];
@@ -278,7 +284,7 @@ namespace Sort_Benchmark
             return v;
         }
 
-        static int[] sortKirill2(int[] v, int rif)
+        public static int[] sortKirill2(int[] v, int rif)
         {
             int[] temp = new int[v.Length];
 
@@ -321,7 +327,7 @@ namespace Sort_Benchmark
         //=============================================================
         //		Musabir Musabayli
         //=============================================================
-        static int[] sortMusabir(int[] v, int rif)
+        public static int[] sortMusabir(int[] v, int rif)
         {
             Array.Sort(v);
             int[] d = new int[v.Length];
@@ -336,7 +342,7 @@ namespace Sort_Benchmark
         //=============================================================
         //	 Jacopo
         //=============================================================
-        static int[] sortJacopo(int[] v, int rif)
+        public static int[] sortJacopo(int[] v, int rif)
         {
             int[] pesi = new int[v.Length];
             for (int i = 0; i < v.Length; i++)
@@ -350,7 +356,7 @@ namespace Sort_Benchmark
         //=============================================================
         //	 Andrea Bruno 1
         //=============================================================
-        static int[] AndreaBruno(int[] v, int rif)
+        public static int[] AndreaBruno(int[] v, int rif)
         {
             var q = v.Max();
             var a = new int[1 + (rif > (q - rif) ? rif : q) * 2];
@@ -372,7 +378,7 @@ namespace Sort_Benchmark
         //=============================================================
         //	 Andrea Bruno 2
         //=============================================================
-        static int[] AndreaBruno2(int[] v, int rif)
+        public static int[] AndreaBruno2(int[] v, int rif)
         {
             var q = v[0];
             int i = 1;
@@ -429,33 +435,32 @@ namespace Sort_Benchmark
         //=============================================================
         //	 Andrea Manzini
         //=============================================================
-        static int[] AndreaManzini(int[] v, int rif)
-        {
-            // create an array for counting entries:
-            // double length to keep negatives as 0..max , positives as max..max*2
-            var max = v.Max();
-            var d = new int[max * 2];
-            foreach (int item in v)
-            {
-                d[rif - item + max]++;
-            }
-            int j = 0;
-            // in the center, delta=0 so i can copy the reference number
-            while (d[max]-- > 0) { v[j++] = rif; }
-            // going from the center iterate both to left (1) and right (2)
-            for (int i = 1; i < max; i++)
-            {
-                while (d[max - i]-- > 0) { v[j++] = rif + i; } // (1)
-                while (d[max + i]-- > 0) { v[j++] = rif - i; } // (2)
-            }
-            return v;
-        }
+        //public static int[] AndreaManzini(int[] v, int rif)
+        //{
+        //    // create an array for counting entries:
+        //    // double length to keep negatives as 0..max , positives as max..max*2
+        //    var d = new int[max * 2];
+        //    foreach (int item in v)
+        //    {
+        //        d[rif - item + max]++;
+        //    }
+        //    int j = 0;
+        //    // in the center, delta=0 so i can copy the reference number
+        //    while (d[max]-- > 0) { v[j++] = rif; }
+        //    // going from the center iterate both to left (1) and right (2)
+        //    for (int i = 1; i < max; i++)
+        //    {
+        //        while (d[max - i]-- > 0) { v[j++] = rif + i; } // (1)
+        //        while (d[max + i]-- > 0) { v[j++] = rif - i; } // (2)
+        //    }
+        //    return v;
+        //}
 
         //=============================================================
         //	 Muhammad
         //=============================================================
 
-        static int[] sortMuhammadZubair(int[] v, int rif)
+        public static int[] sortMuhammadZubair(int[] v, int rif)
         {
             int cnt = v.Count();
             int[] tempV = new int[cnt];
@@ -508,7 +513,7 @@ namespace Sort_Benchmark
         //=============================================================
         //	 Turiddu
         //=============================================================
-        static int[] sortTuriddu(int[] v, int rif)
+        public static int[] sortTuriddu(int[] v, int rif)
         {
             var elements = v.Length;
             var d = new int[elements];
@@ -540,7 +545,7 @@ namespace Sort_Benchmark
         //=============================================================
         //	 Asekir
         //=============================================================
-        static int[] sortAsekir(int[] v, int rif)
+        public static int[] sortAsekir(int[] v, int rif)
         {
             for (int i = 0; i < v.Length; i++)
             {
@@ -564,7 +569,7 @@ namespace Sort_Benchmark
         //	 Ali
         //=============================================================
 
-        static int[] sortAli(int[] v, int rif)
+        public static int[] sortAli(int[] v, int rif)
         {
             int[] temp = v;
             Array.ForEach(temp, i => Math.Abs(i - rif));
@@ -575,7 +580,7 @@ namespace Sort_Benchmark
         //=============================================================
         //	 YourName
         //=============================================================
-        static int[] sortYourName(int[] v, int rif)
+        public static int[] sortYourName(int[] v, int rif)
         {
             //Write your algorithm here!!!
             //Write your algorithm here!!!
@@ -585,8 +590,6 @@ namespace Sort_Benchmark
             //Write your algorithm here!!!
             return v;
         }
-
     }
-
 
 }

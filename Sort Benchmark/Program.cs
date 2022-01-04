@@ -110,6 +110,7 @@ namespace Sort_Benchmark
                 printResult(sortTuriddu, "Turiddu");
                 printResult(sortAsekir, "Asekir");
                 printResult(sortAli, "Ali");
+                printResult(sortTirio, "Tirio");
             }
 
             //============================
@@ -149,6 +150,7 @@ namespace Sort_Benchmark
             Benchmark(sortTuriddu, "Turiddu");
             Benchmark(sortAsekir, "Asekir");
             Benchmark(sortAli, "Ali");
+            Benchmark(sortTirio, "Tirio");
             Console.ReadKey();
         }
 
@@ -580,14 +582,37 @@ namespace Sort_Benchmark
         //=============================================================
         //	 YourName
         //=============================================================
-        public static int[] sortYourName(int[] v, int rif)
+        public static int[] sortTirio(int[] v, int rif)
         {
-            //Write your algorithm here!!!
-            //Write your algorithm here!!!
-            //Write your algorithm here!!!
-            //Write your algorithm here!!!
-            //Write your algorithm here!!!
-            //Write your algorithm here!!!
+             
+            int dMax = 0;
+            for (int i = 0; i < v.Length; i++)
+            {
+                if (Math.Abs(v[i] - rif) > dMax)
+                    dMax = Math.Abs(v[i] - rif);
+            }
+            dMax++;
+            int[,] v2 = new int[dMax, v.Length];
+            for (int i = 0; i < v.Length; i++)
+            {
+                int k = 0;
+                while (v2[Math.Abs(v[i] - rif), k] != 0)
+                {
+                    k++;
+                }
+                v2[Math.Abs(v[i] - rif), k] = v[i];
+            }
+            int o = 0;
+            for (int i = 0; i < dMax; i++)
+            {
+                int k = 0;
+                while (v2[i, k] != 0)
+                {
+                    v[o] = v2[i, k];
+                    o++;
+                    k++;
+                }
+            }
             return v;
         }
     }

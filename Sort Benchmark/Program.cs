@@ -617,7 +617,7 @@ namespace Sort_Benchmark
             {
 
                 int index = (i * v.Length);
-
+                if (v2[index] == 0) continue;
                 for (int k = 0; k < v.Length; k++)
                 {
                     if ((v2[index + k] != 0))

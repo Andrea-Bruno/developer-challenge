@@ -588,8 +588,9 @@ namespace Sort_Benchmark
             int dMax = 0;
             for (int i = 0; i < v.Length; i++)
             {
-                if (Math.Abs(v[i] - rif) > dMax)
-                    dMax = Math.Abs(v[i] - rif);
+                int abs = Math.Abs(v[i] - rif);
+                if (abs > dMax)
+                    dMax = abs;
             }
             dMax++;
             int[] v2 = new int[dMax * v.Length];
@@ -597,11 +598,12 @@ namespace Sort_Benchmark
             for (int i = 0; i < v.Length; i++)
             {
                 int k = 0;
-                while (v2[(Math.Abs(v[i] - rif) * v.Length) + k] != 0)
+                int abs = Math.Abs(v[i] - rif);
+                while (v2[(abs * v.Length) + k] != 0)
                 {
                     k++;
                 }
-                v2[(Math.Abs(v[i] - rif) * v.Length) + k] = v[i];
+                v2[(abs * v.Length) + k] = v[i];
             }
             int o = 0;
             for (int i = 0; i < dMax; i++)

@@ -584,7 +584,6 @@ namespace Sort_Benchmark
         //=============================================================
         public static int[] sortTirio(int[] v, int rif)
         {
-
             int dMax = 0;
             for (int i = 0; i < v.Length; i++)
             {
@@ -597,25 +596,42 @@ namespace Sort_Benchmark
 
             for (int i = 0; i < v.Length; i++)
             {
-                int k = 0;
-                int abs = Math.Abs(v[i] - rif);
-                while (v2[(abs * v.Length) + k] != 0)
+
+                int index = Math.Abs(v[i] - rif) * v.Length;
+
+                for (int k = 0; k < v.Length; k++)
                 {
-                    k++;
+                    if ((v2[index + k] == 0))
+                    {
+                        v2[index + k] = v[i];
+                        k++;
+                        break;
+                    }
+
                 }
-                v2[(abs * v.Length) + k] = v[i];
+
+
             }
             int o = 0;
             for (int i = 0; i < dMax; i++)
             {
-                int k = 0;
-                while (v2[(i * v.Length) + k] != 0)
+
+                int index = (i * v.Length);
+
+                for (int k = 0; k < v.Length; k++)
                 {
-                    v[o] = v2[(i * v.Length) + k];
-                    o++;
-                    k++;
+                    if ((v2[index + k] != 0))
+                    {
+                        v[o] = v2[index + k];
+                        o++;
+                    }
+                    else break;
+
                 }
+
+
             }
+
             return v;
         }
     }

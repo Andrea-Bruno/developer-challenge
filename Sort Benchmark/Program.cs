@@ -46,7 +46,7 @@ namespace Sort_Benchmark
             {
                 if (pointer == ntest)
                     pointer = 0;
-                var output = new int[len];
+                var output = new int[len]; 
                 Array.Copy(randomBase, pointer, output, 0, len);
                 pointer++;
                 return output;

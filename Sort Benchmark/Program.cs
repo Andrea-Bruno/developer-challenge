@@ -105,7 +105,7 @@ namespace Sort_Benchmark
                 printResult(sortJacopo, "Jacopo");
                 printResult(AndreaBruno, "Andrea Bruno");
                 printResult(AndreaBruno2, "Andrea Bruno 2");
-                //printResult(AndreaManzini, "Andrea Manzini");
+                printResult(AndreaManzini, "Andrea Manzini");
                 printResult(sortMuhammadZubair, "Muhammad");
                 printResult(sortTuriddu, "Turiddu");
                 printResult(sortAsekir, "Asekir");
@@ -144,7 +144,7 @@ namespace Sort_Benchmark
             Benchmark(sortJacopo, "Jacopo");
             Benchmark(AndreaBruno, "Andrea Bruno");
             Benchmark(AndreaBruno2, "Andrea Bruno 2");
-            //Benchmark(AndreaManzini, "Andrea Manzini");
+            Benchmark(AndreaManzini, "Andrea Manzini");
             Benchmark(sortMuhammadZubair, "Muhammad");
             Benchmark(sortTuriddu, "Turiddu");
             Benchmark(sortAsekir, "Asekir");
@@ -432,29 +432,33 @@ namespace Sort_Benchmark
             return v;
         }
 
-        //=============================================================
-        //	 Andrea Manzini
-        //=============================================================
-        //public static int[] AndreaManzini(int[] v, int rif)
-        //{
-        //    // create an array for counting entries:
-        //    // double length to keep negatives as 0..max , positives as max..max*2
-        //    var d = new int[max * 2];
-        //    foreach (int item in v)
-        //    {
-        //        d[rif - item + max]++;
-        //    }
-        //    int j = 0;
-        //    // in the center, delta=0 so i can copy the reference number
-        //    while (d[max]-- > 0) { v[j++] = rif; }
-        //    // going from the center iterate both to left (1) and right (2)
-        //    for (int i = 1; i < max; i++)
-        //    {
-        //        while (d[max - i]-- > 0) { v[j++] = rif + i; } // (1)
-        //        while (d[max + i]-- > 0) { v[j++] = rif - i; } // (2)
-        //    }
-        //    return v;
-        //}
+        // =============================================================
+        //	 Andrea Manzini (updated to not use external data)
+        // =============================================================
+        public static int[] AndreaManzini(int[] v, int rif)
+        {
+            int m = rif;
+            int l = v.Length;
+            for (int i = 0; i < l; i++) if (m < v[i]) m = v[i];
+            // create an array for counting entries:
+            // double length to keep negatives as 0..max , positives as max..max*2
+            var c = new int[m + m];
+            int z = rif + m;
+            for (int i = 0; i < l; i++) ++c[z - v[i]];
+            int p = 0;
+            // in the center, delta=0 so i can simply copy the reference number
+            int n = c[m];
+            for (int k = 0; k < n; k++) { v[p] = rif; p++; }
+            // going from the center iterate both to left (1) and right (2)
+            for (int i = 1; i < m; i++)
+            {
+                z = rif + i; n = c[m - i];
+                for (int k = 0; k < n; k++) { v[p] = z; p++; } // (1)
+                z = rif - i; n = c[m + i];
+                for (int k = 0; k < n; k++) { v[p] = z; p++; } // (2)
+            }
+            return v;
+        }
 
         //=============================================================
         //	 Muhammad

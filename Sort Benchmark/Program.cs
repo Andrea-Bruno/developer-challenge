@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -31,6 +31,14 @@ namespace Sort_Benchmark
 
     class Program
     {
+        static int pointer = 0;
+        static int[] randomBase;
+        static Random r = new Random();
+        const int ntest = 100000;
+        const int max = 2000; 
+        const int len = 100; 
+        static int rif;
+ 
 
         static int[] Ar
         {
@@ -38,26 +46,15 @@ namespace Sort_Benchmark
             {
                 if (pointer == ntest)
                     pointer = 0;
-                var output = new int[len];
+                var output = new int[len]; 
                 Array.Copy(randomBase, pointer, output, 0, len);
                 pointer++;
                 return output;
             }
         }
 
-        static int pointer = 0;
-        static int[] randomBase;
-        static Random r = new Random();
-
-        const int ntest = 1000000;
-        const int rif = 10;
-        const int max = 20;
-        const int len = 55;
 
         static double abComp = 0;
-
-        //static readonly int[] Ar = { 7, 13, 2, 16, 20, 1, 0, 11, 1, 5, 13, 17, 6, 15, 20, 1, 1, 14, 13, 8, 6, 4, 10, 4, 4, 20, 10, 19, 6, 11, 8, 8, 12, 15, 6, 9, 15, 6, 11, 19, 18, 12, 14, 11, 17, 18, 9, 10, 10, 15, 12, 17, 0, 1, 11 };
-        //static readonly int[] Ar = { 5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 
         static void Main(string[] args)
         {
@@ -65,7 +62,6 @@ namespace Sort_Benchmark
             randomBase = new int[l];
             for (var i = 0; i < l; i++)
                 randomBase[i] = r.Next(0, max + 1);
-            //put in temperature the CPU
             DateTime time = DateTime.Now.AddSeconds(10);
             var counter = 0;
             do
@@ -74,81 +70,72 @@ namespace Sort_Benchmark
                 var sqr = counter ^ 2;
             } while (DateTime.Now < time);
 
-            static void printResult(Func<int[], int, int[]> routine, string author)
-            {
-                var a = Ar;
-                var t1 = 0; foreach (var n in a) t1 += 1;
-                var v = routine(a, rif);
-                var t2 = 0; foreach (var n in v) t2 += 1;
-                if (t1 != t2)
-                    Debugger.Break(); //Wrong algo!
-                Console.WriteLine(author);
-                foreach (var value in v)
-                {
-                    Console.WriteLine(value + " " + Math.Abs(value - rif));
-                }
-                Console.WriteLine();
-            }
-
-
-            //============================
-            //   Print sequence
-            //============================
-            if (true)
-            {
-                printResult(sortMubasher, "Mubasher");
-                printResult(sortSadiq, "Sadiq");
-                printResult(sortFaig, "Faig");
-                printResult(sortKirill1, "Kirill1");
-                printResult(sortKirill2, "Kirill2");
-                printResult(sortMusabir, "Musabir");
-                printResult(sortJacopo, "Jacopo");
-                printResult(AndreaBruno, "Andrea Bruno");
-                printResult(AndreaBruno2, "Andrea Bruno 2");
-                //printResult(AndreaManzini, "Andrea Manzini");
-                printResult(sortMuhammadZubair, "Muhammad");
-                printResult(sortTuriddu, "Turiddu");
-                printResult(sortAsekir, "Asekir");
-                printResult(sortAli, "Ali");
-            }
 
             //============================
             //   Benchmark test
             //============================
 
-            Console.WriteLine("bm = comparison with Bimbominkia, the lower values are better");
+            Console.WriteLine("score = comparison between Algorithms (lower values are better)");
 
             void Benchmark(Func<int[], int, int[]> routine, string author)
             {
                 DateTime time = DateTime.Now;
                 var counter = 0;
                 do
-                {
+                {	
+                	rif =r.Next(0, max + 1);
                     var b = Ar;
-                    b = routine(b, rif);
+                    var result = new int[b.Length];
+                    result = routine(b, rif);
+                    if (!testResult(b, rif, result)){
+                    	Console.WriteLine(author+": Algoritmo errato!");
+                    	return; //Wrong algo!
+                    }
                     counter++;
                 } while (counter <= ntest);
                 var ms = (DateTime.Now - time).TotalMilliseconds;
                 if (abComp == 0)
-                    abComp = ms / 2;
-                Console.WriteLine(author + "=" + (int)ms + "ms;  ab=" + Math.Round(ms / abComp, 2));
+                    abComp = ms;
+                Console.WriteLine(author + "=" + (int)ms + "ms;  score=" + Math.Round(ms / abComp, 2));
+            }
+            
+            bool testResult(int[] input, int rif, int[] result){
+            	if (input.Length != result.Length || input.Sum()!=result.Sum()){
+            		Console.WriteLine("Rif:{0} - Array input: [{1}]", rif, string.Join(", ", input));
+            		Console.WriteLine("Rif:{0} - Array output: [{1}]", rif, string.Join(", ", result));
+            		Console.WriteLine("Array di lunghezza o composizione errata!");
+                    return false;
+                }
+                for (int i = 1; i < result.Length; i++){
+                	if (Math.Abs(result[i]-rif)<Math.Abs(result[i-1]-rif)){
+            			Console.WriteLine("Rif:{0} - Array input: [{1}]", rif, string.Join(", ", input));
+            			Console.WriteLine("Rif:{0} - Array input: [{1}]", rif, string.Join(", ", result));
+                		Console.WriteLine("Errore di ordinamento!");
+                    	return false;
+                	}
+                }
+                return true;
             }
 
             // ATTENTION: Run the benchmark in Release modality
-            Benchmark(sortMubasher, "Mubasher"); //run this on first!
+            Benchmark(sortJacopo, "Jacopo"); //run this on first!
+            Benchmark(sortMubasher, "Mubasher"); 		         
             Benchmark(sortSadiq, "Sadiq");
             Benchmark(sortFaig, "Faig");
             Benchmark(sortKirill1, "Kirill1");
             Benchmark(sortKirill2, "Kirill2");
             Benchmark(sortMusabir, "Musabir");
-            Benchmark(sortJacopo, "Jacopo");
             Benchmark(AndreaBruno, "Andrea Bruno");
-            Benchmark(AndreaBruno2, "Andrea Bruno 2");
+            //Benchmark(AndreaBruno2, "Andrea Bruno 2");
             //Benchmark(AndreaManzini, "Andrea Manzini");
             Benchmark(sortMuhammadZubair, "Muhammad");
             Benchmark(sortTuriddu, "Turiddu");
             Benchmark(sortAsekir, "Asekir");
             Benchmark(sortAli, "Ali");
+			Benchmark(sortFrancescoBrocato, "Francesco Brocato");   
+			Benchmark(sortFrancescoBrocato2, "Francesco Brocato 2"); 	 
+			Benchmark(sortFrancescoBrocato3, "Francesco Brocato 3");           
+			Console.WriteLine("Escecuzione terminata! Pressa un tasto qualsiasi per uscire");
             Console.ReadKey();
         }
 
@@ -577,6 +564,155 @@ namespace Sort_Benchmark
             return v;
         }
 
+        //=============================================================
+        //	 Francesco Brocato
+        //=============================================================
+		public static int[] sortFrancescoBrocato(int[] v, int rif) {
+			
+			int[] rv=new int[v.Length];
+			int min=v[0];
+			int max=v[v.Length-1];
+			int[] underRifTMP=new int[v.Length];
+			int[] overRifTMP=new int[v.Length];
+			int h=0;
+			int k=0;
+			
+			for (int i=0;i<v.Length; i++){
+				if (v[i]<min){
+					min=v[i];
+				} else if (v[i]>max){
+					max=v[i];
+				} 
+				if (v[i]<=rif){
+					underRifTMP[h]=v[i];
+					h++;
+				} else if (v[i]>rif){
+					overRifTMP[k]=v[i];
+					k++;
+				}		    		   		
+			}	
+			if (rif<=min) {
+				Array.Sort(v);	
+				return v;
+			}
+			if (rif>=max) {
+				Array.Sort(v);	
+				for (int i=0;i<=v.Length/2; i++){	
+					rv[i]=v[v.Length-(i+1)];
+					rv[v.Length-(i+1)]=v[i];
+				}
+				return rv;    		
+			}
+			int[] underRif=new int[h];
+			int[] overRif=new int[k];    	
+			for (int i=0;i<h;i++){
+				underRif[i]=underRifTMP[h-i-1];
+			}
+			for (int i=0;i<k;i++){
+				overRif[i]=overRifTMP[i];
+			}    	
+			Array.Sort(underRif);
+			Array.Sort(overRif);
+
+			int j=0;
+			k=0;
+			h=h-1;
+			while (h>=0 && k<overRif.Length) {
+				if(Math.Abs(underRif[h]-rif)<=Math.Abs(overRif[k]-rif)){
+					v[j]=underRif[h];
+					h--;
+				} else {
+					v[j]=overRif[k];
+					k++;
+				}
+				j++;
+			};
+			if (h<0){
+				for (int i=k; i<overRif.Length;i++){
+					v[j]=overRif[i];
+					j++;
+				}
+			} else {
+				for (int i=h; i>=0; i--){
+					v[j]=underRif[i];
+					j++;
+				}					
+			}    	
+
+			return v;
+		}
+
+        
+        //=============================================================
+        //	Francesco Brocato 2
+        //=============================================================
+
+		public static int[] sortFrancescoBrocato2(int[] v, int rif) {
+			Array.Sort(v); 
+			int[] rv=new int[v.Length];	
+			if (rif<=v[0]) {
+				return v;
+			}
+			if (rif>=v[v.Length-1]) {
+				for (int i=0;i<=v.Length/2; i++){	
+					rv[i]=v[v.Length-(i+1)];
+					rv[v.Length-(i+1)]=v[i];
+				}
+				return rv;    		
+			}
+			int h=0;
+			int j=0;
+			int k=v.Length-1;    			
+			while (h<=k) {
+				if(-1*(v[h]-rif)>=v[k]-rif){
+					rv[rv.Length-1-j]=v[h];
+					h++;
+				} else {
+					rv[rv.Length-1-j]=v[k];
+					k--;
+				}
+				j++;
+			};    	
+		 
+			return rv;
+		}		
+
+        //=============================================================
+        //	 Francesco Brocato 3
+        //=============================================================
+		public static int[] sortFrancescoBrocato3(int[] v, int rif) {
+			
+			int[][] ranking=new int[v.Length][];
+			int j=0;
+			int score;
+			int[] tmp=new int[2];
+			
+			for (int i=0;i<v.Length; i++){		
+				if((v[i]-rif)>=0){
+					score=v[i]-rif;
+				} else {
+					score=-1*(v[i]-rif);
+				}
+				ranking[i]=new int[2];	
+				ranking[i][0]=v[i];
+				ranking[i][1]=score;
+				j=i;
+				while(j>0 && ranking[j][1]<ranking[j-1][1]){
+					tmp=ranking[j];
+					ranking[j]=ranking[j-1];
+					ranking[j-1]=tmp;
+					j--;
+					
+				}
+			}
+			for (int i=0;i<v.Length; i++){
+				v[i]=ranking[i][0];
+			}
+
+
+			return v;
+		}		
+        
         //=============================================================
         //	 YourName
         //=============================================================

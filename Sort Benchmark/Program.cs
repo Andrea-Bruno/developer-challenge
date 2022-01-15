@@ -75,7 +75,7 @@ namespace Sort_Benchmark
             //   Benchmark test
             //============================
 
-            Console.WriteLine("bm = comparison with Bimbominkia, the lower values are better");
+            Console.WriteLine("score = comparison between Algorithms (lower values are better)");
 
             void Benchmark(Func<int[], int, int[]> routine, string author)
             {
@@ -96,7 +96,7 @@ namespace Sort_Benchmark
                 var ms = (DateTime.Now - time).TotalMilliseconds;
                 if (abComp == 0)
                     abComp = ms;
-                Console.WriteLine(author + "=" + (int)ms + "ms;  bm=" + Math.Round(ms / abComp, 2));
+                Console.WriteLine(author + "=" + (int)ms + "ms;  score=" + Math.Round(ms / abComp, 2));
             }
             
             bool testResult(int[] input, int rif, int[] result){
